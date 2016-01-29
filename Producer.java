@@ -18,20 +18,24 @@ public class Producer extends Thread {
     
     @Override
     public void run() {
-        System.out.println("Producer");
         
+        for ( int i = 0 ; i < 3; i++) {
+            this.putMessage();
+            System.out.println("Put message "+i);
+        }
         
+    
     }
     
-    private void putMessage() {
+    private synchronized void putMessage() {
         if ( messages.size() <= MAXVECTOR  ) {
-            messages.addElement(new Date().toString() + "  new message from producer.");
+            messages.addElement(messages.size() +" : "+ new Date().toString() + "  new message from producer.");
         }
         
     }
     
-    public String getMessage() {
-        String value = "";
+    public synchronized String getMessage() {
+        String value = "Undefined message.";
         
         if ( messages.size() > 0 ) {
             value = (String) messages.firstElement();
